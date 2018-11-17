@@ -1,10 +1,10 @@
 package com.jeremykendall.electricity;
 
+import lombok.ToString;
 import lombok.Value;
 
-import java.math.BigDecimal;
-
 @Value(staticConstructor = "of")
+@ToString
 public class Voltage {
     private Double volts;
 }
