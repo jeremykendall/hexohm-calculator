@@ -8,13 +8,13 @@ import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
 public class Hexohm {
 
-    private static final Map<Integer, Voltage> OUTPUT_VOLTAGE = new HashMap<Integer, Voltage>() {{
+    private static final Map<Integer, Voltage> OUTPUT_VOLTAGE = new LinkedHashMap<Integer, Voltage>() {{
         put(0, Voltage.of(3.27));
         put(10, Voltage.of(3.38));
         put(20, Voltage.of(3.53));
