@@ -37,6 +37,11 @@ public class Hexohm {
     private final Resistance ohms;
 
     public Wattage getWattage(int potentiometer) {
+
+        if (!OUTPUT_VOLTAGE.containsKey(potentiometer)) {
+            throw new IllegalArgumentException();
+        }
+
         Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms, SCALE);
 
         return wattage.isGreaterThan(MAX_WATTAGE) ? MAX_WATTAGE: wattage;
