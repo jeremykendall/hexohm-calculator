@@ -39,7 +39,7 @@ public class Hexohm {
     public Wattage getWattage(int potentiometer) {
 
         if (!OUTPUT_VOLTAGE.containsKey(potentiometer)) {
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException("potentiometer setting must be one of " + OUTPUT_VOLTAGE.keySet().toString());
         }
 
         Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms, SCALE);
