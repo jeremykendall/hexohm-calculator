@@ -4,17 +4,14 @@ import com.jeremykendall.electricity.OhmsLaw;
 import com.jeremykendall.electricity.Resistance;
 import com.jeremykendall.electricity.Voltage;
 import com.jeremykendall.electricity.Wattage;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
-import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-@AllArgsConstructor
 public class Hexohm {
 
     private static final Map<Integer, Voltage> OUTPUT_VOLTAGE = new HashMap<Integer, Voltage>() {{
@@ -39,26 +36,13 @@ public class Hexohm {
     @Getter
     private final Resistance ohms;
 
-    @Setter
-    @Getter
-    private Integer potentiometer = 0;
-
-    public Wattage getWattage() {
-        Wattage wattage = OhmsLaw.getWattage(getVoltage(), ohms, SCALE);
+    public Wattage getWattage(int potentiometer) {
+        Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms, SCALE);
 
         return wattage.isGreaterThan(MAX_WATTAGE) ? MAX_WATTAGE: wattage;
     }
 
-    public Wattage getWattage(int potentiometer) {
-        int originalPotentiometer = getPotentiometer();
-        setPotentiometer(potentiometer);
-        Wattage wattage = getWattage();
-        setPotentiometer(originalPotentiometer);
-
-        return wattage;
-    }
-
-    public Voltage getVoltage() {
+    private Voltage getVoltage(int potentiometer) {
         return OUTPUT_VOLTAGE.get(potentiometer);
     }
 }
