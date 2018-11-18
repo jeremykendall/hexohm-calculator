@@ -49,6 +49,15 @@ public class Hexohm {
         return wattage.isGreaterThan(MAX_WATTAGE) ? MAX_WATTAGE: wattage;
     }
 
+    public Wattage getWattage(int potentiometer) {
+        int originalPotentiometer = getPotentiometer();
+        setPotentiometer(potentiometer);
+        Wattage wattage = getWattage();
+        setPotentiometer(originalPotentiometer);
+
+        return wattage;
+    }
+
     public Voltage getVoltage() {
         return OUTPUT_VOLTAGE.get(potentiometer);
     }
