@@ -48,7 +48,7 @@ class HexohmSpec extends Specification {
         wattage == Wattage.of(180.0)
     }
 
-    def "it should throw exception if potentiometer setting isn't 0 - 100 (counted by 10s)"() {
+    def "getWattage should throw exception if potentiometer setting isn't 0 - 100 (counted by 10s)"() {
         given:
         Hexohm hexohm = new Hexohm(Resistance.of(0.22))
 
@@ -56,6 +56,7 @@ class HexohmSpec extends Specification {
         hexohm.getWattage(25)
 
         then:
-        thrown(IllegalArgumentException)
+        IllegalArgumentException e = thrown()
+        e.getMessage() == "potentiometer setting must be one of [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]"
     }
 }
