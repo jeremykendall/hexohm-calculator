@@ -1,12 +1,11 @@
-allprojects {
-    repositories {
-        mavenCentral()
-    }
-}
-
 subprojects {
     apply plugin: 'java'
     apply plugin: 'groovy'
+    apply plugin: 'eclipse'
+
+    repositories {
+        mavenCentral()
+    }
 
     group 'com.jeremykendall'
     sourceCompatibility = 1.8
