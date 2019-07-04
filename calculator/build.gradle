@@ -1,0 +1,9 @@
+version '0.0.5-SNAPSHOT'
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.4.11'
+
+    compileOnly 'org.projectlombok:lombok:1.18.4'
+
+    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+}
