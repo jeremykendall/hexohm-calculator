@@ -30,8 +30,6 @@ public class Hexohm {
 
     private static final Wattage MAX_WATTAGE = Wattage.of(180.0);
 
-    private static final int SCALE = 0;
-
     @NonNull
     @Getter
     private final Resistance ohms;
@@ -40,7 +38,7 @@ public class Hexohm {
 
         validatePotentiometer(potentiometer);
 
-        Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms, SCALE);
+        Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms);
 
         return wattage.isGreaterThan(MAX_WATTAGE) ? MAX_WATTAGE: wattage;
     }

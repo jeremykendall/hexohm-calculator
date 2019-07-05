@@ -4,6 +4,10 @@ import java.math.BigDecimal;
 
 public class OhmsLaw {
 
+    public static Wattage getWattage(Voltage voltage, Resistance resistance) {
+        return getWattage(voltage, resistance, 0);
+    }
+
     public static Wattage getWattage(Voltage voltage, Resistance resistance, int scale) {
         BigDecimal watts = BigDecimal.valueOf(voltage.getVolts())
                 .pow(2)
