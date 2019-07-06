@@ -67,6 +67,10 @@ shell:>wattage-table --resistance 0.23
 Since it's a pain to calculate the output voltage of the potentiometer, the only valid pot settings are 0 - 100, counting 
 by 10s.
 
+The output voltage used to calculate wattage may not reflect reality. I have yet to find anyone who has actually measured 
+the output voltage of a Hexohm v3 who has also posted that data anywhere, so I went with a table I found somewhere on the internet.
+Because if it's on the internet it must be true.
+
 ## As a Dependency
 
 No idea why you'd want to, but if you want to add the `hexohm-calculator` to your own app you can do so using 
