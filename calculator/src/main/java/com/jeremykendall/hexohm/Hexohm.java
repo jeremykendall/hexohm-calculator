@@ -14,7 +14,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class Hexohm {
 
-    private static final Map<Integer, Voltage> OUTPUT_VOLTAGE = new LinkedHashMap<Integer, Voltage>() {{
+    private static final Map<Integer, Voltage> OUTPUT_VOLTAGE_AT_SETTING = new LinkedHashMap<Integer, Voltage>() {{
         put(0, Voltage.of(3.27));
         put(10, Voltage.of(3.38));
         put(20, Voltage.of(3.53));
@@ -30,29 +30,27 @@ public class Hexohm {
 
     private static final Wattage MAX_WATTAGE = Wattage.of(180.0);
 
-    private static final int SCALE = 0;
-
     @NonNull
     @Getter
     private final Resistance ohms;
 
-    public Wattage getWattage(int potentiometer) {
+    public Wattage getPowerOutput(int potentiometerSetting) {
 
-        validatePotentiometer(potentiometer);
+        validatePotentiometerSetting(potentiometerSetting);
 
-        Wattage wattage = OhmsLaw.getWattage(getVoltage(potentiometer), ohms, SCALE);
+        Wattage wattage = OhmsLaw.getWattage(getOutputVoltage(potentiometerSetting), ohms);
 
         return wattage.isGreaterThan(MAX_WATTAGE) ? MAX_WATTAGE: wattage;
     }
 
-    private void validatePotentiometer(int potentiometer) {
-        if (!OUTPUT_VOLTAGE.containsKey(potentiometer)) {
-            throw new IllegalArgumentException("potentiometer setting must be one of " +
-                    OUTPUT_VOLTAGE.keySet().toString());
+    private void validatePotentiometerSetting(int potentiometerSetting) {
+        if (!OUTPUT_VOLTAGE_AT_SETTING.containsKey(potentiometerSetting)) {
+            throw new IllegalArgumentException("potentiometerSetting setting must be one of " +
+                    OUTPUT_VOLTAGE_AT_SETTING.keySet().toString());
         }
     }
 
-    private Voltage getVoltage(int potentiometer) {
-        return OUTPUT_VOLTAGE.get(potentiometer);
+    private Voltage getOutputVoltage(int potentiometerSetting) {
+        return OUTPUT_VOLTAGE_AT_SETTING.get(potentiometerSetting);
     }
 }

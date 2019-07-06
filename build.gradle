@@ -1,23 +1,12 @@
-plugins {
-    id 'groovy'
-    id 'java'
-    id 'net.ltgt.apt' version '0.10'
-}
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'eclipse'
 
-group 'com.jeremykendall'
-version '0.0.5-SNAPSHOT'
+    repositories {
+        mavenCentral()
+    }
 
-sourceCompatibility = 1.8
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.11'
-
-    compileOnly 'org.projectlombok:lombok:1.18.4'
-    apt 'org.projectlombok:lombok:1.18.4'
-
-    testCompile 'org.spockframework:spock-core:1.1-groovy-2.4'
+    group 'com.jeremykendall'
+    sourceCompatibility = 1.8
 }
