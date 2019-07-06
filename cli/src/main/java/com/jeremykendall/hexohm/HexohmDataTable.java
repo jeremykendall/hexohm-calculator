@@ -37,12 +37,12 @@ class HexohmDataTable {
 
     private static void generateData(String[][] tableData, Hexohm hexohm) {
 
-        int potentiometer = 0;
+        int potentiometerSetting = 0;
 
         for (int i = 1; i < ROW_COUNT; i++) {
-            tableData[i][0] = String.valueOf(potentiometer);
-            tableData[i][1] = String.valueOf(hexohm.getWattage(potentiometer).getWatts());
-            potentiometer += 10;
+            tableData[i][0] = String.valueOf(potentiometerSetting);
+            tableData[i][1] = String.valueOf(hexohm.getPowerOutput(potentiometerSetting).getWatts());
+            potentiometerSetting += 10;
         }
     }
 
