@@ -33,7 +33,7 @@ $ java -jar cli/build/libs/cli-0.0.1-SNAPSHOT.jar
 
 . . .
 
-shell:>wattage-table --resistance 0.23
+shell:>wattage --resistance 0.23
 +-------------+-------+
 |Potentiometer|Wattage|
 +-------------+-------+
