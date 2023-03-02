@@ -1,21 +1,21 @@
-buildscript {
-    ext {
-        springBootVersion = '2.1.0.RELEASE'
-    }
-    repositories {
-        mavenCentral()
-    }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
-    }
+plugins {
+    id 'org.springframework.boot' version '3.0.3'
+    id 'io.spring.dependency-management' version '1.1.0'
 }
 
-version '0.0.2-SNAPSHOT'
+version '0.0.3-SNAPSHOT'
 
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
+ext {
+    set('springShellVersion', "3.0.0")
+}
 
 dependencies {
-	implementation 'org.springframework.shell:spring-shell-starter:2.0.0.RELEASE'
+    implementation 'org.springframework.shell:spring-shell-starter'
     implementation project(':calculator')
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.shell:spring-shell-dependencies:${springShellVersion}"
+    }
 }

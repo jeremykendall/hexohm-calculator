@@ -8,5 +8,17 @@ subprojects {
     }
 
     group 'com.jeremykendall'
-    sourceCompatibility = 1.8
+    sourceCompatibility = 17
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.26'
+        annotationProcessor 'org.projectlombok:lombok:1.18.26'
+    }
+
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events "passed", "skipped", "failed"
+        }
+    }
 }

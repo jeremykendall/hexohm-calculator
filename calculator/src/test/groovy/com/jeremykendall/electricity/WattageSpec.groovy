@@ -1,13 +1,11 @@
 package com.jeremykendall.electricity
 
 import spock.lang.Specification
-import spock.lang.Unroll
 
-@Unroll
-class OhmsLawSpec extends Specification {
+class WattageSpec extends Specification {
     def "it should calculate wattage"() {
         expect:
-        OhmsLaw.getWattage(Voltage.of(voltage), Resistance.of(resistance), 2) == Wattage.of(wattage)
+        Wattage.calculate(Voltage.of(voltage), Resistance.of(resistance), 2) == Wattage.of(wattage)
 
         where:
         voltage | resistance | wattage

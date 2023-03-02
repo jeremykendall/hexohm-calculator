@@ -1,61 +1,56 @@
 package com.jeremykendall.hexohm;
 
+import com.jeremykendall.electricity.Amperage;
 import com.jeremykendall.electricity.Resistance;
-import org.springframework.shell.table.ArrayTableModel;
+import com.jeremykendall.electricity.Wattage;
+import lombok.Value;
+import org.springframework.shell.table.AbsoluteWidthSizeConstraints;
+import org.springframework.shell.table.BeanListTableModel;
 import org.springframework.shell.table.BorderStyle;
+import org.springframework.shell.table.CellMatchers;
 import org.springframework.shell.table.SimpleHorizontalAligner;
 import org.springframework.shell.table.Table;
 import org.springframework.shell.table.TableBuilder;
+import org.springframework.shell.table.TableModel;
 
-import static org.springframework.shell.table.CellMatchers.at;
+import java.util.EnumSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 
 class HexohmDataTable {
 
-    private static final int ROW_COUNT = 12;
-    private static final int COLUMN_COUNT = 2;
-
     static Table build(Resistance resistance) {
+        LinkedHashMap<String, Object> headers = new LinkedHashMap<>();
+        headers.put("potentiometer", "Setting");
+        headers.put("amperage", "Amps");
+        headers.put("wattage", "Watts");
 
-        String[][] tableData = new String[ROW_COUNT][COLUMN_COUNT];
+        List<RowData> rowData = EnumSet.allOf(Hexohm.Potentiometer.class).stream()
+                .map(potentiometer -> {
+                    Hexohm hexohm = new Hexohm(resistance, potentiometer);
+                    return new RowData(potentiometer, hexohm.getCurrent(), hexohm.getPowerOutput());
+                })
+                .collect(Collectors.toList());
 
-        addHeaders(tableData);
-        generateData(tableData, new Hexohm(resistance));
+        TableModel model = new BeanListTableModel<>(rowData, headers);
 
-        TableBuilder tableBuilder = new TableBuilder(new ArrayTableModel(tableData))
+        TableBuilder tableBuilder = new TableBuilder(model)
                 .addFullBorder(BorderStyle.oldschool);
 
-        alignHeaderRow(tableBuilder);
-        alignDataRows(tableBuilder);
+        tableBuilder.on(CellMatchers.table()).addAligner(SimpleHorizontalAligner.right);
+        tableBuilder.on(CellMatchers.row(0)).addAligner(SimpleHorizontalAligner.center);
+        tableBuilder.on(CellMatchers.column(0)).addSizer(new AbsoluteWidthSizeConstraints(10));
+        tableBuilder.on(CellMatchers.column(1)).addSizer(new AbsoluteWidthSizeConstraints(10));
+        tableBuilder.on(CellMatchers.column(2)).addSizer(new AbsoluteWidthSizeConstraints(10));
 
         return tableBuilder.build();
     }
 
-    private static void addHeaders(String[][] tableData) {
-        tableData[0][0] = "Potentiometer";
-        tableData[0][1] = "Wattage";
-    }
-
-    private static void generateData(String[][] tableData, Hexohm hexohm) {
-
-        int potentiometerSetting = 0;
-
-        for (int i = 1; i < ROW_COUNT; i++) {
-            tableData[i][0] = String.valueOf(potentiometerSetting);
-            tableData[i][1] = String.valueOf(hexohm.getPowerOutput(potentiometerSetting).getWatts());
-            potentiometerSetting += 10;
-        }
-    }
-
-    private static void alignHeaderRow(TableBuilder tableBuilder) {
-        tableBuilder.on(at(0, 1)).addAligner(SimpleHorizontalAligner.center);
-        tableBuilder.on(at(0, 2)).addAligner(SimpleHorizontalAligner.center);
-    }
-
-    private static void alignDataRows(TableBuilder tableBuilder) {
-        for (int i = 1; i < ROW_COUNT; i++) {
-            for (int j = 0; j < 2; j++) {
-                tableBuilder.on(at(i, j)).addAligner(SimpleHorizontalAligner.right);
-            }
-        }
+    @Value
+    static class RowData {
+        Hexohm.Potentiometer potentiometer;
+        Amperage amperage;
+        Wattage wattage;
     }
 }
